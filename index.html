@@ -1,0 +1,600 @@
+<title>Kitap Kulübü Gizlilik</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #FBF7EF;
+    --surface: #F4EEDF;
+    --surface-raised: #FFFDF8;
+    --ink: #1C1B1F;
+    --ink-soft: #5B5347;
+    --ink-faint: #8A8071;
+    --accent: #A8681E;
+    --accent-strong: #8F5A1E;
+    --rule: rgba(28,27,31,0.14);
+    --rule-soft: rgba(28,27,31,0.08);
+    --chip-bg: rgba(168,104,30,0.10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A2E;
+      --surface: #1B2238;
+      --surface-raised: #202744;
+      --ink: #EDE6D6;
+      --ink-soft: #B7AF9C;
+      --ink-faint: #857D6D;
+      --accent: #E3BE6C;
+      --accent-strong: #F0CD84;
+      --rule: rgba(237,230,214,0.16);
+      --rule-soft: rgba(237,230,214,0.09);
+      --chip-bg: rgba(227,190,108,0.14);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #141A2E;
+    --surface: #1B2238;
+    --surface-raised: #202744;
+    --ink: #EDE6D6;
+    --ink-soft: #B7AF9C;
+    --ink-faint: #857D6D;
+    --accent: #E3BE6C;
+    --accent-strong: #F0CD84;
+    --rule: rgba(237,230,214,0.16);
+    --rule-soft: rgba(237,230,214,0.09);
+    --chip-bg: rgba(227,190,108,0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+    color: var(--ink);
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 120px;
+  }
+
+  header.masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1.title {
+    font-size: clamp(32px, 5.5vw, 46px);
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .updated {
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lang-switch {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+    background: var(--surface);
+  }
+
+  .lang-switch button {
+    font-family: 'Karla', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .lang-switch button.active {
+    background: var(--accent);
+    color: #2A1B08;
+  }
+
+  .lang-switch button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    margin-bottom: 48px;
+  }
+
+  nav.toc a {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav.toc a:hover, nav.toc a:focus-visible {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  section.block {
+    margin-bottom: 44px;
+    scroll-margin-top: 24px;
+  }
+
+  section.block h2 {
+    font-size: 23px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 14px;
+  }
+
+  section.block h2 .num {
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  section.block h3 {
+    font-size: 16.5px;
+    margin: 22px 0 8px;
+    color: var(--accent-strong);
+  }
+
+  section.block p {
+    margin: 0 0 12px;
+    color: var(--ink);
+    max-width: 66ch;
+  }
+
+  section.block ul {
+    margin: 0 0 12px;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  section.block li {
+    position: relative;
+    padding-left: 20px;
+    max-width: 62ch;
+  }
+
+  section.block li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  li strong { color: var(--ink); }
+
+  a.inline-link {
+    color: var(--accent-strong);
+    text-decoration-color: var(--rule);
+    text-underline-offset: 3px;
+  }
+
+  a.inline-link:hover { text-decoration-color: var(--accent-strong); }
+
+  .source-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+    margin: 16px 0 28px;
+  }
+
+  .source-card {
+    background: var(--surface-raised);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .source-card .name {
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .source-card .desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .chip {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--accent-strong);
+    margin-top: 8px;
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 24px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .contact-card .label {
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .contact-card .email {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    color: var(--ink);
+  }
+
+  .contact-card a.button {
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #2A1B08;
+    background: var(--accent);
+    padding: 10px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  hr.rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 56px 0 40px;
+  }
+
+  footer {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  [hidden] { display: none !important; }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 40px 18px 90px; }
+    .meta-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">Kitap Kulübü</span>
+    <h1 class="title">Gizlilik Politikası &amp; Kaynaklar</h1>
+    <p class="subtitle">Uygulamayı kullanırken hangi bilgilerin toplandığını, nasıl kullanıldığını ve uygulamanın hangi dış kaynaklara dayandığını burada açıklıyoruz.</p>
+    <div class="meta-row">
+      <span class="updated" id="updated-date">Son güncelleme: 11 Eylül 2026</span>
+      <div class="lang-switch" role="tablist" aria-label="Dil seçimi">
+        <button type="button" class="active" data-lang="tr" role="tab" aria-selected="true">Türkçe</button>
+        <button type="button" data-lang="en" role="tab" aria-selected="false">English</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= TÜRKÇE ================= -->
+  <div id="lang-tr">
+
+    <nav class="toc" aria-label="İçindekiler">
+      <a href="#tr-veri">Topladığımız Veriler</a>
+      <a href="#tr-kullanim">Verilerin Kullanımı</a>
+      <a href="#tr-ucuncu">Üçüncü Taraf Hizmetler</a>
+      <a href="#tr-guvenlik">Güvenlik &amp; Saklama</a>
+      <a href="#tr-silme">Verilerin Silinmesi</a>
+      <a href="#tr-cocuk">Çocukların Gizliliği</a>
+      <a href="#tr-kaynaklar">Kaynaklar</a>
+      <a href="#tr-iletisim">İletişim</a>
+    </nav>
+
+    <section class="block" id="tr-veri">
+      <h2><span class="num">01</span> Topladığımız Veriler</h2>
+      <p>Kitap Kulübü, hesap açmadan da kullanılabilir. Bazı özellikler (Takas ve Sohbet) için Google hesabınızla giriş yapmanız istenir. Topladığımız veriler:</p>
+      <ul>
+        <li><strong>Google hesap bilgileri</strong> — giriş yaptığınızda Google'dan adınızı, e‑posta adresinizi ve profil fotoğrafınızı alırız (Firebase Authentication üzerinden).</li>
+        <li><strong>Anonim kullanım kimliği</strong> — hesap açmadan kullandığınızda cihazınıza rastgele, kişisel bilgi içermeyen bir kimlik atanır; kütüphanenizi bu kimlikle saklarız.</li>
+        <li><strong>Kütüphane verileriniz</strong> — eklediğiniz kitaplar, okuma durumları, koleksiyonlarınız ve istek listeniz.</li>
+        <li><strong>Takas bilgileri</strong> — Takas bölümünü etkinleştirirseniz, yakınınızdaki okurlarla eşleştirme yapmak için belirttiğiniz il/ilçe.</li>
+        <li><strong>Sohbet mesajları</strong> — bir kullanıcıyla başlattığınız sohbetlerdeki mesajlar; yalnızca o sohbetin katılımcıları arasında paylaşılır.</li>
+        <li><strong>Yorumlar</strong> — kitaplar hakkında yazdığınız yorumlar, diğer kullanıcılara açık şekilde gösterilir.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="tr-kullanim">
+      <h2><span class="num">02</span> Verileri Nasıl Kullanıyoruz</h2>
+      <ul>
+        <li>Kütüphanenizi, okuma geçmişinizi ve koleksiyonlarınızı cihazlar arasında senkronize tutmak için.</li>
+        <li>Takas bölümünde belirttiğiniz il/ilçeye göre yakınınızdaki okurları göstermek için.</li>
+        <li>"Yapay Zekâ Kitap Önerisi" ve "Yapay Zekâ Özeti" özellikleri için okuma geçmişiniz veya kitap bilgisi, öneri/özet üretmek amacıyla Google Gemini API'sine gönderilir.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="tr-ucuncu">
+      <h2><span class="num">03</span> Üçüncü Taraf Hizmetler</h2>
+      <p>Uygulama, aşağıdaki hizmetlere dayanır. Bu hizmetlerin kendi gizlilik politikaları geçerlidir:</p>
+      <ul>
+        <li><strong>Firebase (Google)</strong> — kimlik doğrulama ve veritabanı altyapısı.</li>
+        <li><strong>Google Sign-In</strong> — Google hesabıyla giriş.</li>
+        <li><strong>Google Gemini API</strong> — yapay zekâ destekli özet/öneri üretimi.</li>
+        <li><strong>Kitap kataloğu kaynakları</strong> — barkod/ISBN sorgusu için Google Books, Open Library, TO‑KAT, İspanya Millî Kütüphanesi (BNE) ve Almanya Millî Kütüphanesi'ne (DNB) yalnızca ISBN numarası gönderilir; kişisel veri paylaşılmaz.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="tr-guvenlik">
+      <h2><span class="num">04</span> Güvenlik &amp; Saklama</h2>
+      <p>Verileriniz Google Firebase altyapısında saklanır. Hesabınızı sildiğinizde veya Google hesabınızdan çıkış yaptığınızda kütüphaneniz, o hesaba bağlı kalmaya devam eder — tekrar giriş yapmadan görüntülenemez.</p>
+    </section>
+
+    <section class="block" id="tr-silme">
+      <h2><span class="num">05</span> Verilerinizin Silinmesi</h2>
+      <p>Hesabınıza ve verilerinize ait tam silme talebinde bulunmak için aşağıdaki iletişim adresinden bize ulaşabilirsiniz. Talebiniz makul bir süre içinde işleme alınır.</p>
+    </section>
+
+    <section class="block" id="tr-cocuk">
+      <h2><span class="num">06</span> Çocukların Gizliliği</h2>
+      <p>Kitap Kulübü genel kitlelere yönelik bir uygulamadır ve bilerek 13 yaş altı çocuklardan veri toplamaz. Böyle bir durumun farkına varırsak ilgili veriyi sileriz.</p>
+    </section>
+
+    <section class="block" id="tr-kaynaklar">
+      <h2><span class="num">07</span> Kaynaklar &amp; Açık Kaynak Atıfları</h2>
+      <p>Uygulama, kitap verilerini toplamak ve özellik sunmak için aşağıdaki açık/ücretsiz kaynaklara ve kütüphanelere dayanır. Bunların hiçbiri telif ücreti gerektirmez.</p>
+      <div class="source-grid">
+        <div class="source-card">
+          <div class="name">Google Books API</div>
+          <div class="desc">Kitap başlığı, yazar, kapak ve açıklama verisi.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">Open Library</div>
+          <div class="desc">Internet Archive'ın açık kitap veritabanı — kapak ve künye verisi.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">TO‑KAT</div>
+          <div class="desc">TÜBİTAK ULAKBİM ve Kültür Bakanlığı'nın Ulusal Toplu Kataloğu — Türkçe yayınlar için.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">BNE</div>
+          <div class="desc">İspanya Millî Kütüphanesi'nin açık SRU servisi.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">DNB</div>
+          <div class="desc">Almanya Millî Kütüphanesi'nin (Deutsche Nationalbibliothek) açık SRU servisi.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">Material Icons</div>
+          <div class="desc">Google — Apache License 2.0 ile lisanslıdır.</div>
+          <span class="chip">Apache 2.0</span>
+        </div>
+        <div class="source-card">
+          <div class="name">Firebase &amp; Google Sign-In</div>
+          <div class="desc">Google LLC — kimlik doğrulama, veritabanı ve mesajlaşma altyapısı.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">Uygulama görselleri</div>
+          <div class="desc">Uygulama simgesi ve arka plan görselleri özel olarak oluşturulmuştur; üçüncü taraf telifi içermez.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="tr-iletisim">
+      <h2><span class="num">08</span> İletişim</h2>
+      <p>Bu politika hakkında sorularınız veya veri silme talepleriniz için:</p>
+      <div class="contact-card">
+        <div>
+          <div class="label">E‑posta</div>
+          <div class="email">ttkprens@gmail.com</div>
+        </div>
+        <a class="button" href="mailto:ttkprens@gmail.com">E‑posta Gönder</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= ENGLISH ================= -->
+  <div id="lang-en" hidden>
+
+    <nav class="toc" aria-label="Table of contents">
+      <a href="#en-data">Data We Collect</a>
+      <a href="#en-use">How We Use It</a>
+      <a href="#en-third">Third-Party Services</a>
+      <a href="#en-security">Security &amp; Retention</a>
+      <a href="#en-delete">Deleting Your Data</a>
+      <a href="#en-children">Children's Privacy</a>
+      <a href="#en-sources">Sources</a>
+      <a href="#en-contact">Contact</a>
+    </nav>
+
+    <section class="block" id="en-data">
+      <h2><span class="num">01</span> Data We Collect</h2>
+      <p>Kitap Kulübü (Book Club) can be used without an account. A Google account is only required for the Trade and Chat features. What we collect:</p>
+      <ul>
+        <li><strong>Google account details</strong> — when you sign in, we receive your name, email address, and profile photo from Google (via Firebase Authentication).</li>
+        <li><strong>Anonymous usage ID</strong> — when used without an account, your device gets a random identifier with no personal information; your library is stored against it.</li>
+        <li><strong>Library data</strong> — the books you add, their reading status, your collections, and your wishlist.</li>
+        <li><strong>Trade details</strong> — if you activate the Trade section, the province/district you provide to match you with nearby readers.</li>
+        <li><strong>Chat messages</strong> — messages in chats you start with another user; visible only to that chat's participants.</li>
+        <li><strong>Comments</strong> — comments you write about books, shown publicly to other users.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="en-use">
+      <h2><span class="num">02</span> How We Use It</h2>
+      <ul>
+        <li>To keep your library, reading history, and collections in sync across devices.</li>
+        <li>To show nearby readers based on the province/district you provided in the Trade section.</li>
+        <li>For the "AI Book Recommendation" and "AI Summary" features, your reading history or book details are sent to the Google Gemini API to generate the recommendation or summary.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="en-third">
+      <h2><span class="num">03</span> Third-Party Services</h2>
+      <p>The app relies on the following services, each governed by its own privacy policy:</p>
+      <ul>
+        <li><strong>Firebase (Google)</strong> — authentication and database infrastructure.</li>
+        <li><strong>Google Sign-In</strong> — signing in with a Google account.</li>
+        <li><strong>Google Gemini API</strong> — AI-generated summaries and recommendations.</li>
+        <li><strong>Book catalog sources</strong> — for barcode/ISBN lookups, only the ISBN number is sent to Google Books, Open Library, TO‑KAT, the National Library of Spain (BNE), and the German National Library (DNB); no personal data is shared with them.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="en-security">
+      <h2><span class="num">04</span> Security &amp; Retention</h2>
+      <p>Your data is stored on Google's Firebase infrastructure. If you sign out of your Google account, your library stays tied to that account — it stays hidden until you sign in again.</p>
+    </section>
+
+    <section class="block" id="en-delete">
+      <h2><span class="num">05</span> Deleting Your Data</h2>
+      <p>To request full deletion of your account and data, contact us at the email address below. Requests are processed within a reasonable time.</p>
+    </section>
+
+    <section class="block" id="en-children">
+      <h2><span class="num">06</span> Children's Privacy</h2>
+      <p>Kitap Kulübü is a general-audience app and does not knowingly collect data from children under 13. If we become aware that we have, we delete it.</p>
+    </section>
+
+    <section class="block" id="en-sources">
+      <h2><span class="num">07</span> Sources &amp; Open-Source Attributions</h2>
+      <p>The app relies on the following free, open sources and libraries to gather book data and provide its features. None of them require paid licensing.</p>
+      <div class="source-grid">
+        <div class="source-card">
+          <div class="name">Google Books API</div>
+          <div class="desc">Book title, author, cover, and description data.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">Open Library</div>
+          <div class="desc">The Internet Archive's open book database — covers and bibliographic data.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">TO‑KAT</div>
+          <div class="desc">Turkey's National Union Catalog (TÜBİTAK ULAKBİM &amp; Ministry of Culture) — for Turkish titles.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">BNE</div>
+          <div class="desc">The National Library of Spain's open SRU service.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">DNB</div>
+          <div class="desc">The German National Library's (Deutsche Nationalbibliothek) open SRU service.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">Material Icons</div>
+          <div class="desc">Google — licensed under the Apache License 2.0.</div>
+          <span class="chip">Apache 2.0</span>
+        </div>
+        <div class="source-card">
+          <div class="name">Firebase &amp; Google Sign-In</div>
+          <div class="desc">Google LLC — authentication, database, and messaging infrastructure.</div>
+        </div>
+        <div class="source-card">
+          <div class="name">App artwork</div>
+          <div class="desc">The app icon and background imagery were custom-made for this app and carry no third-party copyright.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="en-contact">
+      <h2><span class="num">08</span> Contact</h2>
+      <p>For questions about this policy or data deletion requests:</p>
+      <div class="contact-card">
+        <div>
+          <div class="label">Email</div>
+          <div class="email">ttkprens@gmail.com</div>
+        </div>
+        <a class="button" href="mailto:ttkprens@gmail.com">Send Email</a>
+      </div>
+    </section>
+
+  </div>
+
+  <hr class="rule">
+  <footer>Kitap Kulübü — bu sayfa Play Store gönderimi için gizlilik politikası bağlantısı olarak kullanılabilir.</footer>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.lang-switch button');
+  const panels = { tr: document.getElementById('lang-tr'), en: document.getElementById('lang-en') };
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      buttons.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
+      Object.entries(panels).forEach(([key, el]) => { el.hidden = key !== lang; });
+    });
+  });
+</script>
