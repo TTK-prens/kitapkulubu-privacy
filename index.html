@@ -412,8 +412,23 @@
     </section>
 
     <section class="block" id="tr-silme">
-      <h2><span class="num">06</span> Verilerinizin Silinmesi</h2>
-      <p>Hesabınıza ve verilerinize ait tam silme talebinde bulunmak için aşağıdaki iletişim adresinden bize ulaşabilirsiniz. Talebiniz makul bir süre içinde işleme alınır.</p>
+      <h2><span class="num">06</span> Hesabınızın ve Verilerinizin Silinmesi</h2>
+      <p>Uygulama içinde şu anda doğrudan bir "Hesabı Sil" düğmesi bulunmuyor. Hesabınızın ve uygulamada sakladığımız tüm verilerinizin kalıcı olarak silinmesini istediğinizde, aşağıdaki e‑posta adresinden bize ulaşmanız yeterli — talebinizde giriş yaptığınız Google hesabının e‑posta adresini belirtin. Talebiniz en geç 30 gün içinde işleme alınır ve şunlar kalıcı olarak silinir:</p>
+      <ul>
+        <li>Google hesap bağlantınız ve profil bilgileriniz (Firebase Authentication)</li>
+        <li>Kütüphanenizdeki kitaplar, okuma durumları ve koleksiyonlarınız</li>
+        <li>İstek listeniz</li>
+        <li>Takas için paylaştığınız il/ilçe bilgisi ve açık takas ilanlarınız</li>
+        <li>Gönderdiğiniz ve aldığınız sohbet mesajları</li>
+        <li>Kitaplar hakkında yazdığınız yorumlar</li>
+      </ul>
+      <div class="contact-card">
+        <div>
+          <div class="label">Silme talebi için e‑posta</div>
+          <div class="email">ttkprens@gmail.com</div>
+        </div>
+        <a class="button" href="mailto:ttkprens@gmail.com?subject=Hesap%20Silme%20Talebi">E‑posta Gönder</a>
+      </div>
     </section>
 
     <section class="block" id="tr-cocuk">
@@ -540,8 +555,23 @@
     </section>
 
     <section class="block" id="en-delete">
-      <h2><span class="num">06</span> Deleting Your Data</h2>
-      <p>To request full deletion of your account and data, contact us at the email address below. Requests are processed within a reasonable time.</p>
+      <h2><span class="num">06</span> Deleting Your Account and Data</h2>
+      <p>The app does not currently have a direct "Delete Account" button inside it. To request permanent deletion of your account and all data we store, email us at the address below — please include the email address of the Google account you signed in with. Requests are processed within 30 days. The following is permanently deleted:</p>
+      <ul>
+        <li>Your Google account link and profile info (Firebase Authentication)</li>
+        <li>The books, reading statuses, and collections in your library</li>
+        <li>Your wishlist</li>
+        <li>The province/district you shared for Trade, and your open trade listings</li>
+        <li>Chat messages you sent and received</li>
+        <li>Comments you wrote on books</li>
+      </ul>
+      <div class="contact-card">
+        <div>
+          <div class="label">Deletion request email</div>
+          <div class="email">ttkprens@gmail.com</div>
+        </div>
+        <a class="button" href="mailto:ttkprens@gmail.com?subject=Account%20Deletion%20Request">Send Email</a>
+      </div>
     </section>
 
     <section class="block" id="en-children">
@@ -614,11 +644,18 @@
 <script>
   const buttons = document.querySelectorAll('.lang-switch button');
   const panels = { tr: document.getElementById('lang-tr'), en: document.getElementById('lang-en') };
+  function setLang(lang) {
+    buttons.forEach(b => { b.classList.toggle('active', b.dataset.lang === lang); b.setAttribute('aria-selected', b.dataset.lang === lang ? 'true' : 'false'); });
+    Object.entries(panels).forEach(([key, el]) => { el.hidden = key !== lang; });
+  }
   buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lang = btn.dataset.lang;
-      buttons.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
-      Object.entries(panels).forEach(([key, el]) => { el.hidden = key !== lang; });
-    });
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
   });
+  // Deep links like #en-delete should switch to English first, then scroll — the
+  // target section is display:none in the other language's hidden panel otherwise.
+  if (location.hash.startsWith('#en-')) {
+    setLang('en');
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) requestAnimationFrame(() => target.scrollIntoView());
+  }
 </script>
